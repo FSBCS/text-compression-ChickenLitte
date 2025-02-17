@@ -12,7 +12,24 @@ class HuffmanEncoding:
             encoded_text (str, optional): The encoded text to be decoded.
             root (Node, optional): The root node of the Huffman tree for decoding.
         """
-        pass
+        freq = {}
+        sorted_freq = MinPQ()
+        tree = MinPQ()
+        for char in src:
+            if char in freq.keys():
+                freq[char] += 1
+            else:
+                freq.update({char:1})
+        for char in src:
+            print(freq[char],char)
+            sorted_freq.insert(freq[char],char)
+            print(sorted_freq.peek())
+        i = 0
+        while sorted_freq.size() > 2:
+            tree.insert(i,sorted_freq.del_min())
+            print(tree.peek())
+            i += 1
+    
     
     class Node:
         def __init__(self, freq, char=None, left=None, right=None):
@@ -38,7 +55,8 @@ class HuffmanEncoding:
         Returns:
             str: The original source text.
         """
-        pass
+        
+        pass 
 
     def root(self):
         """
@@ -70,3 +88,17 @@ class HuffmanEncoding:
         dictionary.update(self._build_dictionary(node.left, prefix + '0'))
         dictionary.update(self._build_dictionary(node.right, prefix + '1'))
         return dictionary
+def main():
+    HuffmanEncoding("nhoj elttil pus")
+if __name__ =="__main__":
+    main()
+    
+
+# self.dictionary = self._build_dictionary
+   
+# 1. Count the frequency of each character
+# 2. For each character, create a node that stores the character value and its frequency.
+# 3. Push all of these nodes to a min-ordered priority queue
+# 4. Pop off the two least frequent nodes and create a new node that has these two as left and right children and the combined frequency of both.
+# 5. Push this new node to the priority queue.
+# 6. If there is more than one node left on the queue, go back to step 4. Otherwise, the one remaining node is the root of our tree.
