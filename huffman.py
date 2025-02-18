@@ -11,14 +11,13 @@ class HuffmanEncoding:
             encoded_text (str, optional): The encoded text to be decoded.
             root (Node, optional): The root node of the Huffman tree for decoding.
         """
-        if src:
+        if src != None:
             self.freq = {}
             for char in src:
                 if char in self.freq:
                     self.freq[char] += 1
                 else:
                     self.freq[char] = 1
-            
             self.sorted_freq = MinPQ()
             for char, freq in self.freq.items():
                 self.sorted_freq.insert(freq, self.Node(freq, char))
@@ -26,9 +25,9 @@ class HuffmanEncoding:
             while self.sorted_freq.size() > 1:
                 left = self.sorted_freq.del_min()
                 right = self.sorted_freq.del_min()
+                print(left.freq, right.freq)
                 new_node = self.Node(left.freq + right.freq, left=left, right=right)
                 self.sorted_freq.insert(new_node.freq, new_node)
-            
             self.root = self.sorted_freq.del_min()
             self.dictionary = self._build_dictionary(self.root)
             self.encoded_text = ''.join(self.dictionary[char] for char in src)
@@ -38,8 +37,6 @@ class HuffmanEncoding:
             self.root = root
             self.dictionary = self._build_dictionary(self.root)
             self.src = self.decode(encoded_text, root)
-        else:
-            raise ValueError("Either source text or encoded text and root must be provided.")
     
     class Node:
         def __init__(self, freq, char=None, left=None, right=None):
@@ -99,14 +96,6 @@ class HuffmanEncoding:
         return dictionary
 
     def decode(self, encoded_text, root):
-        """
-        Decodes the encoded text using the Huffman tree.
-        Args:
-            encoded_text (str): The encoded text to be decoded.
-            root (Node): The root node of the Huffman tree.
-        Returns:
-            str: The decoded original text.
-        """
         decoded_text = []
         node = root
         for bit in encoded_text:
@@ -118,13 +107,12 @@ class HuffmanEncoding:
             if node.is_leaf():
                 decoded_text.append(node.char)
                 node = root
-        
         return ''.join(decoded_text)
 
 def main():
     huffman = HuffmanEncoding("nhoj elttil pus")
-    print("Encoded text:", huffman.encoding())
-    print("Decoded text:", huffman.source_text())
+    print("Encode",huffman.encoding())
+    print("Decoded",huffman.source_text())
 
 if __name__ == "__main__":
     main()
