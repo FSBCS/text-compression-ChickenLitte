@@ -20,8 +20,7 @@ class HuffmanEncoding:
                     self.freq[char] = 1
             self.sorted_freq = MinPQ()
             for char, freq in self.freq.items():
-                self.sorted_freq.insert(freq, self.Node(freq, char))
-            
+                self.sorted_freq.insert(freq,self.Node(freq, char))
             while self.sorted_freq.size() > 1:
                 left = self.sorted_freq.del_min()
                 right = self.sorted_freq.del_min()
@@ -32,7 +31,7 @@ class HuffmanEncoding:
             self.dictionary = self._build_dictionary(self.root)
             self.encoded_text = ''.join(self.dictionary[char] for char in src)
             self.src = src
-        elif encoded_text and root:
+        elif encoded_text != None and root != None:
             self.encoded_text = encoded_text
             self.root = root
             self.dictionary = self._build_dictionary(self.root)
@@ -97,13 +96,12 @@ class HuffmanEncoding:
 
     def decode(self, encoded_text, root):
         decoded_text = []
-        node = root
+        node =root
         for bit in encoded_text:
             if bit == '0':
                 node = node.left
             else:
                 node = node.right
-            
             if node.is_leaf():
                 decoded_text.append(node.char)
                 node = root
